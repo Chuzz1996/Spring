@@ -55,25 +55,27 @@ public class BlueprintAPIController {
             Set<Blueprint> data = bp.getAllBlueprints();
             return new ResponseEntity<>(data,HttpStatus.ACCEPTED);
         }catch(BlueprintNotFoundException ex){
-            return new ResponseEntity<>("Error bla bla bla",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Datos no encontrados",HttpStatus.NOT_FOUND);
         }
     }
     
     @RequestMapping(path = "/{author}", method = RequestMethod.GET)
-    public Set<Blueprint> findOwner(@PathVariable String author){
+    public ResponseEntity<?> findOwner(@PathVariable String author){
         try{
-            return bp.getBlueprintsByAuthor(author);
+            Set<Blueprint> data = bp.getBlueprintsByAuthor(author);
+            return new ResponseEntity<>(data,HttpStatus.ACCEPTED);
         }catch(BlueprintNotFoundException ex){
-            return null;
+            return new ResponseEntity<>("Datos no encontrados",HttpStatus.NOT_FOUND);
         }
     }
     
     @RequestMapping(path = "/{author}/{name}", method = RequestMethod.GET)
-    public Blueprint findMultiple(@PathVariable String author, @PathVariable String name){
+    public ResponseEntity<?> findMultiple(@PathVariable String author, @PathVariable String name){
         try{
-            return bp.getBlueprint(author, name);
+            Blueprint data = bp.getBlueprint(author, name);
+            return new ResponseEntity<>(data,HttpStatus.ACCEPTED);
         }catch(BlueprintNotFoundException e){
-            return null;
+            return new ResponseEntity<>("Datos no encontrados",HttpStatus.NOT_FOUND);
         }
     }
     
@@ -83,17 +85,18 @@ public class BlueprintAPIController {
             bp.addNewBlueprint(blup);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }catch(BlueprintPersistenceException ex){
-            return new ResponseEntity<>("Error bla bla bla",HttpStatus.FORBIDDEN); 
+            return new ResponseEntity<>("Datos no insertados",HttpStatus.FORBIDDEN); 
         }
         
     }
     
     @RequestMapping(path = "/{author}/{bpname}", method = RequestMethod.GET)
-    public Blueprint myself(@PathVariable String author, @PathVariable String bpname){
+    public ResponseEntity<?> myself(@PathVariable String author, @PathVariable String bpname){
         try{
-            return bp.getBlueprint(author, bpname);
+            Blueprint data = bp.getBlueprint(author, bpname);
+            return new ResponseEntity<>(data,HttpStatus.ACCEPTED);
         }catch(BlueprintNotFoundException ex){
-            return null;
+            return new ResponseEntity<>("Datos no encontrados",HttpStatus.NOT_FOUND);
         }
     }
     
