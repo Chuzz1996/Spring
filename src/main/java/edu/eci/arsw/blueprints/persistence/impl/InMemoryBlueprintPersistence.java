@@ -16,6 +16,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
 import org.springframework.stereotype.Service;
 
 /**
@@ -25,7 +27,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
 
-    private final Map<Tuple<String,String>,Blueprint> blueprints=new HashMap<>();
+    private final ConcurrentMap<Tuple<String,String>,Blueprint> blueprints=new ConcurrentHashMap<>();
+    
 
     public InMemoryBlueprintPersistence() {
         //load stub data
@@ -75,6 +78,25 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
         }return res;
     }
 
-    
+    @Override
+    public synchronized void updateBlueprint(String author, String bprintname, Point point) throws BlueprintPersistenceException {
+        if(blueprints.containsKey(new Tuple<>(author,bprintname))){
+            blueprints.get(new Tuple<>(author,bprintname)).addPoint(point);
+        }else{
+            throw new BlueprintPersistenceException("I cant update a"+ author +"becase it didnt add");
+        }
+    }
+
+    @Override
+    public synchronized void updateBlueprint(String author, String bprintname, List<Point> point) throws BlueprintPersistenceException {
+        if(blueprints.containsKey(new Tuple<>(author,bprintname))){
+            Blueprint bp = blueprints.get(new Tuple<>(author,bprintname));
+            for(Point x:point){
+                bp.addPoint(x);
+            }
+        }else{
+            throw new BlueprintPersistenceException("I cant update a"+ author +"becase it didnt add");
+        }
+    }
     
 }

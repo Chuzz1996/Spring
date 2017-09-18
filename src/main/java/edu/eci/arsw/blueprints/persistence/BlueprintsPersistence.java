@@ -6,6 +6,7 @@
 package edu.eci.arsw.blueprints.persistence;
 
 import edu.eci.arsw.blueprints.model.Blueprint;
+import edu.eci.arsw.blueprints.model.Point;
 import static java.lang.reflect.Array.set;
 import java.util.List;
 import java.util.Set;
@@ -47,5 +48,23 @@ public interface BlueprintsPersistence {
      * @throws BlueprintNotFoundException 
      */
     public Set<Blueprint> getAllBlueprints()throws BlueprintNotFoundException;
+    
+    /**
+     * 
+     * @param author
+     * @param bprintname
+     * @param point
+     * @throws BlueprintPersistenceException 
+     */
+    public void updateBlueprint(String author,String bprintname, Point point)throws BlueprintPersistenceException;
+    
+    /**
+     * 
+     * @param author
+     * @param bprintname
+     * @param point
+     * @throws BlueprintPersistenceException 
+     */
+    public void updateBlueprint(String author,String bprintname, List<Point> point)throws BlueprintPersistenceException;
     
 }

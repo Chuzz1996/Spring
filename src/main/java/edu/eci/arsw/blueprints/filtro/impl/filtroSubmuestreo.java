@@ -20,16 +20,12 @@ public class filtroSubmuestreo implements filtro{
 
     @Override
     public Blueprint filtro(Blueprint print) {
-        List<Point> tmp = print.getPoints();
-        ArrayList<Point> puntosTmp = new ArrayList<>();
-        for(int i = 0; i < tmp.size(); i++){
-            if(i%2==0){
-                puntosTmp.add(tmp.get(i));
-            }
-        }Point[] puntos = new Point[puntosTmp.size()];
-        for(int i = 0; i < puntosTmp.size(); i++){
-            puntos[i] = puntosTmp.get(i);
-        }return new Blueprint(print.getAuthor(),print.getName(), puntos);
+        Blueprint newPrint = new Blueprint(print.getAuthor(), print.getName());
+        List<Point> points = print.getPoints();
+        for (int i = 0; i < points.size(); i++) {
+            if(i % 2 == 0) newPrint.addPoint(points.get(i));
+        }
+        return newPrint;
     }
     
 }

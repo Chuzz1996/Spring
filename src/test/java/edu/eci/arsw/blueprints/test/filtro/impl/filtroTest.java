@@ -12,10 +12,11 @@ import edu.eci.arsw.blueprints.model.Blueprint;
 import edu.eci.arsw.blueprints.model.Point;
 import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
 import edu.eci.arsw.blueprints.persistence.impl.InMemoryBlueprintPersistence;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import org.junit.Assert;
-import static org.junit.Assert.assertTrue;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  *
@@ -25,34 +26,35 @@ public class filtroTest {
     
     @Test
     public void buenFiltroSubmuestreo(){
-        filtro filter = new filtroSubmuestreo();
-        
-        Point[] pts=new Point[]{new Point(10, 10),new Point(20, 20), new Point(30,30)};
-        Point[] ptsPru = new Point[]{new Point(10, 10), new Point(30, 30)};
-        Blueprint bp = new Blueprint("Pipe", "pruebas",pts);
-        
-        Blueprint print = filter.filtro(bp);
-        List<Point> puntos = print.getPoints();
-        assertTrue(puntos.size()==ptsPru.length);
-        for(int i = 0; i < puntos.size(); i++){
-            assertTrue(puntos.get(i).getX()==ptsPru[i].getX());
-            assertTrue(puntos.get(i).getY()==ptsPru[i].getY());
+        filtro filtro = new filtroSubmuestreo();
+        Point[] pts = new Point[]{new Point(0, 0), new Point(1, 10), new Point(1, 1), new Point(1, 1), new Point(1, 1)};
+        List<Point> Points = new ArrayList<>();
+        Points.add(new Point(0, 0));
+        Points.add(new Point(1, 1));
+        Points.add(new Point(1, 1));
+        Blueprint bp = filtro.filtro(new Blueprint("Pipe", "pruebas", pts));
+        List<Point> pointsFilters = bp.getPoints();
+        assertTrue(Points.size()==pointsFilters.size());
+        for (int i = 0; i < bp.getPoints().size(); i++){
+            assertTrue(Points.get(i).getX()==pointsFilters.get(i).getX());
+            assertTrue(Points.get(i).getY()==pointsFilters.get(i).getY());
         }
     }
     
     @Test
     public void buenFiltroRedundancias(){
-        filtro filter = new filtroRedundancias();
-        Point[] pts=new Point[]{new Point(10, 10),new Point(10, 10), new Point(30,30)};
-        Point[] ptsPru = new Point[]{new Point(10, 10), new Point(30, 30)};
-        Blueprint bp = new Blueprint("Pipe", "pruebas",pts);
-        
-        Blueprint print = filter.filtro(bp);
-        List<Point> puntos = print.getPoints();
-        assertTrue(puntos.size()==ptsPru.length);
-        for(int i = 0; i < puntos.size(); i++){
-            assertTrue(puntos.get(i).getX()==ptsPru[i].getX());
-            assertTrue(puntos.get(i).getY()==ptsPru[i].getY());
+        filtroRedundancias rbf = new filtroRedundancias();
+        Point[] pts = new Point[]{new Point(0, 0), new Point(1, 10), new Point(1, 1), new Point(1, 1), new Point(1, 1)};
+        ArrayList<Point> Points = new ArrayList<>();
+        Points.add(new Point(0, 0));
+        Points.add(new Point(1, 10));
+        Points.add(new Point(1, 1));
+        Blueprint bp = rbf.filtro(new Blueprint("pipe", "prueba", pts));
+        List<Point> pointsFilters = bp.getPoints();
+        assertTrue(Points.size()==pointsFilters.size());
+        for (int i = 0; i < bp.getPoints().size(); i++){
+            assertTrue(Points.get(i).getX()==pointsFilters.get(i).getX());
+            assertTrue(Points.get(i).getY()==pointsFilters.get(i).getY());
         }
     }
 }

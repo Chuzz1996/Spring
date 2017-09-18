@@ -1,0 +1,5 @@
+Qué condiciones de carrera se podrían presentar?
+- Cuando se actualiza al tiempo los puntos de una misma persona
+Cuales son las respectivas regiones críticas?
+- En BlueprintPersistence updateBlueprint
+

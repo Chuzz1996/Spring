@@ -23,20 +23,22 @@ public class filtroRedundancias implements filtro{
 
     @Override
     public Blueprint filtro(Blueprint print) {
-        List<Point> puntosTmp = print.getPoints();
-        ArrayList<Point> puntosSiguientes = new ArrayList<>();
-        if(puntosTmp.size()>0)puntosSiguientes.add(puntosTmp.get(0));
-        for(int i = 1; i < puntosTmp.size(); i++){
-            boolean agregar = true;
-            for(int j = 0; j < puntosSiguientes.size(); j++){
-                if((puntosSiguientes.get(j).getX()==puntosTmp.get(i).getX()) && (puntosSiguientes.get(j).getY()==puntosTmp.get(i).getY())){
-                    agregar = false;
+        List<Point> points = print.getPoints();
+        Blueprint bp = new Blueprint(print.getAuthor(), print.getName());
+        List<Point> puntos = new ArrayList<>();
+        for(int i = 0; i < points.size(); i++){
+            boolean pasa = false;
+            for(int j = 0; j < puntos.size(); j++){
+                if(puntos.get(j).getX()==points.get(i).getX() &&
+                        puntos.get(j).getY()==points.get(i).getY()){
+                    pasa = true;
                 }
-            }if(agregar) puntosSiguientes.add(puntosTmp.get(i));
+            }if(!pasa)puntos.add(points.get(i));
         }
-        Point[] puntos = new Point[puntosTmp.size()];
-        for(int i = 0; i < puntosTmp.size(); i++) puntos[i] = puntosSiguientes.get(i);
-        return new Blueprint(print.getAuthor(), print.getName(), puntos);
+        for(int i = 0; i < puntos.size(); i++){
+            bp.addPoint(puntos.get(i));
+        }
+        return bp;
     }
      
     

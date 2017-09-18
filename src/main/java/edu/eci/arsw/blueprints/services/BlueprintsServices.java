@@ -13,6 +13,7 @@ import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
 import edu.eci.arsw.blueprints.persistence.BlueprintsPersistence;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,4 +87,18 @@ public class BlueprintsServices {
         return printers;
     }
     
+    /**
+     * 
+     * @param author
+     * @param bprintname
+     * @param point
+     * @throws BlueprintPersistenceException 
+     */
+    public void updateBlueprints(String author, String bprintname, Point point)throws BlueprintPersistenceException{
+        bpp.updateBlueprint(author, bprintname, point);
+    }
+    
+    public void updateBlueprints(String author, String bprintname, List<Point> point)throws BlueprintPersistenceException{
+        bpp.updateBlueprint(author, bprintname, point);
+    }
 }

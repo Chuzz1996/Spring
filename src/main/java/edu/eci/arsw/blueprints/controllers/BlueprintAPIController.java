@@ -6,6 +6,7 @@
 package edu.eci.arsw.blueprints.controllers;
 
 import edu.eci.arsw.blueprints.model.Blueprint;
+import edu.eci.arsw.blueprints.model.Point;
 import edu.eci.arsw.blueprints.persistence.BlueprintNotFoundException;
 import edu.eci.arsw.blueprints.persistence.BlueprintPersistenceException;
 import edu.eci.arsw.blueprints.persistence.BlueprintsPersistence;
@@ -101,8 +102,20 @@ public class BlueprintAPIController {
     }
     
     @RequestMapping(path = "/{author}/{bpname}", method = RequestMethod.PUT)
-    public ResponseEntity<?> putNewThings(@PathVariable String author, @PathVariable String bpname){
-        return null;
+    public ResponseEntity<?> putNewThings(@PathVariable String author, @PathVariable String bpname, @RequestBody List<Point> points){
+        try{
+            bp.updateBlueprints(author, bpname, points);
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        }catch(BlueprintPersistenceException e){
+            Blueprint blueprint = new Blueprint(author, bpname);
+            for(Point x : points){blueprint.addPoint(x);}
+            try{
+                bp.addNewBlueprint(blueprint);
+                return new ResponseEntity<>(HttpStatus.ACCEPTED);
+            }catch(BlueprintPersistenceException ex){
+                return new ResponseEntity<>("No fue posible actalizar",HttpStatus.NOT_FOUND);
+            }
+        }
     }
 }
 
