@@ -1,9 +1,9 @@
 Qué condiciones de carrera se podrían presentar?
 - Al actualizar a los arreglos (Map) concurrentemente, se soluciona
   con la lista concurrente (ConcurrentMap)
-- Cuando se actualiza al tiempo los puntos de una misma blueprint, se
+- Cuando se actualiza al tiempo los puntos de una misma blueprint o agregarn, se
   soluciona sincronizando el metodo de actualizacion
 Cuales son las respectivas regiones críticas?
-- En la persistencia, BlueprintPersistence updateBlueprint
+- En la persistencia, BlueprintPersistence, agregar y actualizar
 - Instancia map no concurrente
 
