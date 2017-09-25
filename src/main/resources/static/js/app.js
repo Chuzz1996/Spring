@@ -5,22 +5,25 @@
  */
 privateName = (function(){
     
-    var author;
-    var puntos=[];
-    
-    puntos["johnconnor"] = [{"name":"house",numPoints:4},{"name":"gear",numPoints:4}];
-    
+    var autor = "";
+
     return{
-        getName:function(authname,callback){
-            puntos[authname].find(function(e){return e.name===author})
+        getBlueprints:function(authname){
+            autor = authanem;
+            apimock.getBlueprintsByAuthor(authname,function(list){
+                {"name":list.name,"longitud":list.points.length};
+            });
         },
-        getNameAndSize:function(authname,callback){
-            return puntos[authname]
+        changeName:function(authname){
+            autor = authname;
         }
     }
     
 })();
 
+privateName.getBlueprints("Pipe");
+
+/*
 var updateBlueprint = function(author){
     
     apimock.getBlueprintsByAuthor(author,function(){
@@ -28,4 +31,4 @@ var updateBlueprint = function(author){
         
     })
     
-}
+}*/
