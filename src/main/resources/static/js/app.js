@@ -6,12 +6,16 @@
 privateName = (function(){
     
     var autor = "";
+    
+    var filtro = function(){
+        
+    }
 
     return{
         getBlueprints:function(authname){
-            autor = authanem;
+            autor = authname;
             apimock.getBlueprintsByAuthor(authname,function(list){
-                {"name":list.name,"longitud":list.points.length};
+               console.log(list.map$("#points"));
             });
         },
         changeName:function(authname){
@@ -21,7 +25,7 @@ privateName = (function(){
     
 })();
 
-privateName.getBlueprints("Pipe");
+//privateName.getBlueprints("Pipe");
 
 /*
 var updateBlueprint = function(author){

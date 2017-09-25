@@ -23,11 +23,8 @@ and open the template in the editor.
         <br/>
         <output>Author</output>
         <input id="author"/>
-        <button type="button">Find Planes</button>
+        <button type="button" onclick="privateName.getBlueprints(document.getElementById('author').value)">Find Planes</button>
         <br/><br/>
-        <form>
-            <input type="text" id="planes" placeholder="Planes">
-        </form>
         <table id="points" style="width:20%">
             <tr>
                 <th>Planes</th>
