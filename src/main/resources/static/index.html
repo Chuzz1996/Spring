@@ -21,16 +21,24 @@ and open the template in the editor.
     </head>
     <body>
         <br/>
-        <output>Author</output>
-        <input id="author"/>
-        <button type="button" onclick="privateName.getBlueprints(document.getElementById('author').value)">Find Planes</button>
-        <br/><br/>
-        <table id="points" style="width:20%">
-            <tr>
-                <th>Planes</th>
-                <th>Number of points</th>
-                <th>Open</th>
-            </tr>
-        </table>
+        <form id = "showInput">
+            <output>Author</output>
+            <input id="author"/>
+            <button type="button" onclick="privateName.getBlueprints(document.getElementById('author').value)">Find Planes</button>
+        </form>
+        <form id = "showElementsTabla">
+            <table id="TablePoints" style="width:20%">
+                <tr>
+                    <th>Planes</th>
+                    <th>Number of points</th>
+                    <th>Open</th>
+                </tr>
+            </table>
+            <p>Total user Points: <span id = "totalPoints"></span></p>
+        </form>
+        <div ALIGN=center id ="showCanvas">
+            <p>Current blueprint: <span id = "blueprintSelect"></span></p>
+            <canvas id = "myCanvas" width="400" height="400" style="border:1px solid #000000;"></canvas>
+        </div>
     </body>
 </html>
