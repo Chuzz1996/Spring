@@ -6,6 +6,7 @@
 privateName = (function(){
     
     var autor = "";
+    var api = apiclient;
     
     var cleanTable = function(){
         $("#TablePoints").find("tr:gt(0)").remove();
@@ -22,39 +23,38 @@ privateName = (function(){
         });
         newBLueprints.map(function(bp){
             var scrit = "<tr><td>"+bp.name+"</td><td>"+bp.size+"</td>\n\
-            <td><input type='button' value='open' onclick='privateName.drawPlane(" 
-                    + autor +"," + bp.name + ")'></td></tr>";
+            <td><input type='button' id='bp.name' value='open' onclick=privateName.drawPlane('" 
+                    + document.getElementById("author").value +"','" + bp.name + "')></td></tr>";
             $("#TablePoints").append(scrit);
         });
         document.getElementById("totalPoints").innerHTML = newBLueprints.reduce(getSum,0);
-    }
+    };
     
     var drawBlueprint = function(blueprint){
-        console.log("algo");
         document.getElementById("blueprintSelect").innerHTML = blueprint.name;
-        let canvas = document.getElementById("myCanvas");
-        let ctx = canvas.getContext("2d");
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        ctx.clearRect(0,0,canvas.width, canvas.height);
         ctx.beginPath();
-        for(let i = 0; i < blueprint.points.length; i++){
-            for(let j = 0; j < blueprint.point.length; j++){
-                ctx.lineTo(blueprint.point[j].x,blueprint.point[j].y);
-            }
+        ctx.moveTo(blueprint.points[0].x,blueprint.points[0].y);
+        for(var i = 1; i < blueprint.points.length; i++){
+            ctx.lineTo(blueprint.points[i].x,blueprint.points[i].y);
         }
+        ctx.stroke();
         ctx.closePath();
-        ctx.fill();
-    }   
+    };   
 
     return{
         getBlueprints:function(authname){
             autor = authname;
-            apimock.getBlueprintsByAuthor(authname,nameAndSizeBlueprint);
+            api.getBlueprintsByAuthor(authname,nameAndSizeBlueprint);
         },
         updateName:function(authname){
             autor = authname;
         },
         drawPlane:function(authname,name){
             autor = authname;
-            apimock.getBlueprintsByNameAndAuthor(authname,name,drawBlueprint);
+            api.getBlueprintsByNameAndAuthor(authname,name,drawBlueprint);
         }
     }
     
