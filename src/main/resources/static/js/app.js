@@ -6,7 +6,8 @@
 privateName = (function(){
     
     var autor = "";
-    var api = apiclient;
+    var api = apimock;
+    
     
     var cleanTable = function(){
         $("#TablePoints").find("tr:gt(0)").remove();
@@ -32,7 +33,7 @@ privateName = (function(){
     };
     
     var drawBlueprint = function(blueprint){
-        document.getElementById("blueprintSelect").innerHTML = blueprint.name;
+        document.getElementById("blueprintSelect").innerHTML = blueprint.name;    
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
         ctx.clearRect(0,0,canvas.width, canvas.height);
@@ -43,7 +44,32 @@ privateName = (function(){
         }
         ctx.stroke();
         ctx.closePath();
-    };   
+    };  
+    
+    var drawNewBluePrint = function(){
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        var start = $("#myCanvas").position();
+        ctx.beginPath();
+        ctx.moveTo(0,0);
+        if(window.PointerEvent){
+            canvas.addEventListener("pointerdown",function(event){
+                if(document.getElementById("author").value.length > 0 &&
+                        document.getElementById("blueprintSelect").innerHTML.valueOf().length > 0){
+                    ctx.lineTo(event.clientX-start.left,event.clientY-start.top);
+                    ctx.stroke();
+                }
+            });
+        }else{
+            canvas.addEventListener("mousedown",function(event){
+                if(document.getElementById("author").value.length > 0 &&
+                        document.getElementById("blueprintSelect").innerHTML.valueOf().length > 0){
+                    ctx.lineTo(event.clientX-start.left,event.clientY-start.top);
+                    ctx.stroke();
+                }
+            });
+        }
+    };
 
     return{
         getBlueprints:function(authname){
@@ -56,6 +82,9 @@ privateName = (function(){
         drawPlane:function(authname,name){
             autor = authname;
             api.getBlueprintsByNameAndAuthor(authname,name,drawBlueprint);
+        },
+        drawCanvas:function(){
+            drawNewBluePrint();
         }
     }
     
