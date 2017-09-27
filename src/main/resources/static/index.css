@@ -1,0 +1,54 @@
+.inputAuthor{
+    width:50%;
+    border: 2px solid #20262e;
+    border-radius: 4px;
+    margin:8px 0;
+    padding: 8px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+h1{
+    font: oblique bold 120% cursive;
+    font-size: 50px;
+}
+
+.letra{
+    font: oblique bold 120% cursive;
+    font-size: 20px;
+}
+
+.buttonTable{
+    width:80px;
+    height:40px;
+    border:2px solid #20262e;
+    text-align:center;
+    border-radius: 4px;
+    box-sizing: border-box;
+    
+}
+
+.all{
+    max-width: 50%; 
+    min-width: 400px;
+    display: flex;
+    padding: 2rem 3rem;
+    flex-direction: column;
+    background-color: #fff;
+    
+}
+
+table,th,tr{
+    text-align: center;
+    border:1px solid #dedede;
+    padding: 1rem;
+    width: 50%;
+    box-sizing: border-box;
+}
+
+.endTable{
+    text-align: center;
+    border:1px solid #dedede;
+    padding: 1rem;
+    width: 50%;    
+}

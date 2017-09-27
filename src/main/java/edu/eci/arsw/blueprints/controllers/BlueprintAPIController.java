@@ -69,16 +69,17 @@ public class BlueprintAPIController {
             return new ResponseEntity<>("Datos no encontrados",HttpStatus.NOT_FOUND);
         }
     }
-    
+    /*
     @RequestMapping(path = "/{author}/{name}", method = RequestMethod.GET)
     public ResponseEntity<?> findMultiple(@PathVariable String author, @PathVariable String name){
         try{
             Blueprint data = bp.getBlueprint(author, name);
+            System.out.println(data.getAuthor());
             return new ResponseEntity<>(data,HttpStatus.ACCEPTED);
         }catch(BlueprintNotFoundException e){
             return new ResponseEntity<>("Datos no encontrados",HttpStatus.NOT_FOUND);
         }
-    }
+    }*/
     
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<?> manejadorPostRecursosXX(@RequestBody Blueprint blup){

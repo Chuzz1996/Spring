@@ -17,13 +17,14 @@ privateName = (function(){
     }
     
     var nameAndSizeBlueprint = function(blueprints){
+        document.getElementById("xx").innerHTML = autor;
         cleanTable();
         var newBLueprints = blueprints.map(function(bp){
             return {name:bp.name,size:bp.points.length};
         });
         newBLueprints.map(function(bp){
-            var scrit = "<tr><td>"+bp.name+"</td><td>"+bp.size+"</td>\n\
-            <td><input type='button' id='bp.name' value='open' onclick=privateName.drawPlane('" 
+            var scrit = "<tr class ='endTable'><td>"+bp.name+"</td><td>"+bp.size+"</td>\n\
+            <td><input class='buttonTable' type='button' id='bp.name' value='open' onclick=privateName.drawPlane('" 
                     + document.getElementById("author").value +"','" + bp.name + "')></td></tr>";
             $("#TablePoints").append(scrit);
         });
