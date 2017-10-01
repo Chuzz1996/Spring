@@ -8,6 +8,8 @@ privateName = (function(){
     var autor = "";
     var api = apimock;
     
+    var newPoints = {};
+    
     
     var cleanTable = function(){
         $("#TablePoints").find("tr:gt(0)").remove();
@@ -41,22 +43,23 @@ privateName = (function(){
         ctx.moveTo(blueprint.points[0].x,blueprint.points[0].y);
         for(var i = 1; i < blueprint.points.length; i++){
             ctx.lineTo(blueprint.points[i].x,blueprint.points[i].y);
+            ctx.stroke();
         }
         ctx.stroke();
-        ctx.closePath();
     };  
     
     var drawNewBluePrint = function(){
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
         var start = $("#myCanvas").position();
-        ctx.beginPath();
-        ctx.moveTo(0,0);
         if(window.PointerEvent){
             canvas.addEventListener("pointerdown",function(event){
                 if(document.getElementById("author").value.length > 0 &&
                         document.getElementById("blueprintSelect").innerHTML.valueOf().length > 0){
-                    ctx.lineTo(event.clientX-start.left,event.clientY-start.top);
+                    console.info(event.pageX+","+event.pageY);
+                    console.info(event.clientX+","+event.clientY);
+                    console.info(start.left+","+start.top);
+                    ctx.lineTo(event.pageX-start.left,event.pageY-start.top);
                     ctx.stroke();
                 }
             });
@@ -64,7 +67,8 @@ privateName = (function(){
             canvas.addEventListener("mousedown",function(event){
                 if(document.getElementById("author").value.length > 0 &&
                         document.getElementById("blueprintSelect").innerHTML.valueOf().length > 0){
-                    ctx.lineTo(event.clientX-start.left,event.clientY-start.top);
+                    console.info("1");
+                    ctx.lineTo(event.pageX-start.left,event.pageY-start.top);
                     ctx.stroke();
                 }
             });
