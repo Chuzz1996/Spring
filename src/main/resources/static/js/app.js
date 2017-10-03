@@ -6,9 +6,9 @@
 privateName = (function(){
     
     var autor = "";
-    var api = apimock;
+    var api = apiclient;
     
-    var newPoints = {};
+    var puntos;
     
     
     var cleanTable = function(){
@@ -40,10 +40,10 @@ privateName = (function(){
         var ctx = canvas.getContext("2d");
         ctx.clearRect(0,0,canvas.width, canvas.height);
         ctx.beginPath();
+        puntos = blueprint.points;
         ctx.moveTo(blueprint.points[0].x,blueprint.points[0].y);
         for(var i = 1; i < blueprint.points.length; i++){
             ctx.lineTo(blueprint.points[i].x,blueprint.points[i].y);
-            ctx.stroke();
         }
         ctx.stroke();
     };  
@@ -56,10 +56,9 @@ privateName = (function(){
             canvas.addEventListener("pointerdown",function(event){
                 if(document.getElementById("author").value.length > 0 &&
                         document.getElementById("blueprintSelect").innerHTML.valueOf().length > 0){
-                    console.info(event.pageX+","+event.pageY);
-                    console.info(event.clientX+","+event.clientY);
-                    console.info(start.left+","+start.top);
+                    puntos.push({"x":event.pageX-start.left,"y":event.pageY-start.top});
                     ctx.lineTo(event.pageX-start.left,event.pageY-start.top);
+                    console.info(puntos);
                     ctx.stroke();
                 }
             });
@@ -67,13 +66,26 @@ privateName = (function(){
             canvas.addEventListener("mousedown",function(event){
                 if(document.getElementById("author").value.length > 0 &&
                         document.getElementById("blueprintSelect").innerHTML.valueOf().length > 0){
-                    console.info("1");
-                    ctx.lineTo(event.pageX-start.left,event.pageY-start.top);
+                    puntos.push({"x":event.clientX-start,"y":event.clientY-start.top});
+                    ctx.lineTo(event.clientX-start.left,event.clientY-start.top);
                     ctx.stroke();
                 }
             });
         }
     };
+    
+    var promesaSave = function(){
+        var promesaPut = api.setBlueprintByNameAndAuthor(
+                    document.getElementById("author").value,document.getElementById("blueprintSelect").innerHTML.valueOf(),puntos);
+            promesaPut.then(
+                function(){
+                    console.info("Ok");
+                },
+                function(){
+                    console.info("PAILA");
+                }
+            );
+    }
 
     return{
         getBlueprints:function(authname){
@@ -89,6 +101,17 @@ privateName = (function(){
         },
         drawCanvas:function(){
             drawNewBluePrint();
+        },
+        saveUpdate:function(){
+            promesaSave();
+        },
+        
+        addNewBluePrint:function(){
+            
+        },
+        
+        deleteBluePrint:function(){
+            
         }
     }
     

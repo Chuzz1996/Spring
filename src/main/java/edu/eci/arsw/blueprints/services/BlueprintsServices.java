@@ -101,4 +101,8 @@ public class BlueprintsServices {
     public void updateBlueprints(String author, String bprintname, List<Point> point)throws BlueprintPersistenceException{
         bpp.updateBlueprint(author, bprintname, point);
     }
+    
+    public void deleteBlueprint(String author, String bprintname)throws BlueprintPersistenceException{
+        bpp.deleteBlueprint(author,bprintname);
+    }
 }

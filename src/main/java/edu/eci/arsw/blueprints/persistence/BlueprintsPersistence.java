@@ -67,4 +67,12 @@ public interface BlueprintsPersistence {
      */
     public void updateBlueprint(String author,String bprintname, List<Point> point)throws BlueprintPersistenceException;
     
+    /**
+     * 
+     * @param author
+     * @param bprintname
+     * @throws BlueprintPersistenceException 
+     */
+    public void deleteBlueprint(String author,String bprintname)throws BlueprintPersistenceException;
+    
 }
