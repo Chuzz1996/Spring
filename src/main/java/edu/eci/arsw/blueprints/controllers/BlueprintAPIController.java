@@ -103,13 +103,13 @@ public class BlueprintAPIController {
     }
     
     @RequestMapping(path = "/{author}/{bpname}", method = RequestMethod.PUT)
-    public ResponseEntity<?> putNewThings(@PathVariable String author, @PathVariable String bpname, @RequestBody List<Point> points){
+    public ResponseEntity<?> putNewThings(@PathVariable String author, @PathVariable String bpname, @RequestBody Blueprint points){
         try{
-            bp.updateBlueprints(author, bpname, points);
+            bp.updateBlueprints(author, bpname, points.getPoints());
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }catch(BlueprintPersistenceException e){
             Blueprint blueprint = new Blueprint(author, bpname);
-            for(Point x : points){blueprint.addPoint(x);}
+            for(Point x : points.getPoints()){blueprint.addPoint(x);}
             try{
                 bp.addNewBlueprint(blueprint);
                 return new ResponseEntity<>(HttpStatus.ACCEPTED);

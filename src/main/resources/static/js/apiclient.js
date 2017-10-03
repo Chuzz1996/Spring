@@ -37,11 +37,11 @@ apiclient = (function(){
                     });
                 },
                 
-                deleteBluePrint:function(authname,bpname,points){
+                deleteBluePrint:function(authname,bpname){
                     return $.ajax({
-                       url:"/bluprints",
+                       url:"/bluprints/bpname",
                        type:"DELETE",
-                       data: '{"author":"'+authname+'","name":"'+bpname+'", "points":'+JSON.stringify(points)+'}',
+                       data: '{"author":"'+authname+'","name":"'+bpname+'"}',
                        contentType: "application/json"
                     });
                 }

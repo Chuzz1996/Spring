@@ -26,8 +26,8 @@ privateName = (function(){
             return {name:bp.name,size:bp.points.length};
         });
         newBLueprints.map(function(bp){
-            var scrit = "<tr class ='endTable'><td>"+bp.name+"</td><td>"+bp.size+"</td>\n\
-            <td><input class='buttonTable' type='button' id='bp.name' value='open' onclick=privateName.drawPlane('" 
+            var scrit = "<tr class='lead'><td>"+bp.name+"</td><td>"+bp.size+"</td>\n\
+            <td><input type='button' class='btn btn-primary' id='bp.name' value='open' onclick=privateName.drawPlane('" 
                     + document.getElementById("author").value +"','" + bp.name + "')></td></tr>";
             $("#TablePoints").append(scrit);
         });
@@ -56,8 +56,12 @@ privateName = (function(){
             canvas.addEventListener("pointerdown",function(event){
                 if(document.getElementById("author").value.length > 0 &&
                         document.getElementById("blueprintSelect").innerHTML.valueOf().length > 0){
-                    puntos.push({"x":event.pageX-start.left,"y":event.pageY-start.top});
-                    ctx.lineTo(event.pageX-start.left,event.pageY-start.top);
+                    /*puntos.push({"x":event.pageX-start.left,"y":event.pageY-start.top});
+                    ctx.lineTo(event.pageX-start.left,event.pageY-start.top);*/
+                    puntos.push({"x":event.clientX-start,"y":event.clientY-start.top});
+                    ctx.lineTo(event.clientX-start.left,event.clientY-start.top);
+                    console.info(event.clientX+","+event.clientY);
+                    console.info(start.left+","+start.top);
                     console.info(puntos);
                     ctx.stroke();
                 }
@@ -75,9 +79,9 @@ privateName = (function(){
     };
     
     var promesaSave = function(){
-        var promesaPut = api.setBlueprintByNameAndAuthor(
+        let promesa = api.setBlueprintByNameAndAuthor(
                     document.getElementById("author").value,document.getElementById("blueprintSelect").innerHTML.valueOf(),puntos);
-            promesaPut.then(
+            promesa.then(
                 function(){
                     console.info("Ok");
                 },
@@ -85,6 +89,26 @@ privateName = (function(){
                     console.info("PAILA");
                 }
             );
+    }
+    
+    var promesaAdd = function(){
+        var canvas = document.getElementById("myCanvas");
+        var ctx = canvas.getContext("2d");
+        ctx.clearRect(0,0,canvas.width, canvas.height);
+        document.getElementById("blueprintSelect").innerHTML = "";
+        document.getElementById("newPlane").innerHTML = document.getElementById("inputNewPlane").value;
+    }
+    
+    var promesaEliminar = function(){
+        let promesa = api.deleteBluePrint(document.getElementById("author").value,document.getElementById("blueprintSelect").innerHTML.valueOf());
+        promesa.then(
+          function(){
+              console.info("OK");
+          },
+          function(){
+              console.info("PAILA");
+          }
+        );
     }
 
     return{
@@ -107,11 +131,11 @@ privateName = (function(){
         },
         
         addNewBluePrint:function(){
-            
+            promesaAdd();
         },
         
         deleteBluePrint:function(){
-            
+            promesaEliminar();
         }
     }
     
