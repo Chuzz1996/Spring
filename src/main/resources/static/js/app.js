@@ -52,6 +52,20 @@ privateName = (function(){
         ctx.stroke();
     };  
     
+    function getOffset(obj) {
+          var offsetLeft = 0;
+          var offsetTop = 0;
+          do {
+            if (!isNaN(obj.offsetLeft)) {
+                offsetLeft += obj.offsetLeft;
+            }
+            if (!isNaN(obj.offsetTop)) {
+                offsetTop += obj.offsetTop;
+            }   
+          } while(obj = obj.offsetParent );
+          return {left: offsetLeft, top: offsetTop};
+      } 
+    
     var drawNewBluePrint = function(){
         var canvas = document.getElementById("myCanvas");
         var ctx = canvas.getContext("2d");
@@ -60,8 +74,9 @@ privateName = (function(){
             canvas.addEventListener("pointerdown",function(event){
                 if((document.getElementById("author").value.length > 0 &&
                         document.getElementById("blueprintSelect").innerHTML.valueOf().length > 0)){
-                    puntos.push({"x":event.pageX-start.left,"y":event.pageY-start.top});
-                    ctx.lineTo(event.pageX-start.left,event.pageY-start.top);
+                    var xxx = getOffset(canvas);
+                    puntos.push({"x":event.pageX-xxx.left,"y":event.pageY-xxx.top});
+                    ctx.lineTo(event.pageX-xxx.left,event.pageY-xxx.top);
                     ctx.stroke();
                 }
             });
@@ -78,7 +93,7 @@ privateName = (function(){
     };
     
     var promesaSave = function(){
-        let promesa = api.UpdateBlueprint(
+        var promesa = api.UpdateBlueprint(
                     document.getElementById("author").value,namePlane,puntos);
             promesa.then(
                 function(){
@@ -92,7 +107,7 @@ privateName = (function(){
     
     var promesaAdd = function(){
         if(namePlane.length > 0){
-            let promesa = api.addNewBluePrint(
+            var promesa = api.addNewBluePrint(
                     document.getElementById("author").value,namePlane,puntos);
             promesa.then(
                     function(){
@@ -106,7 +121,7 @@ privateName = (function(){
     }
     
     var promesaEliminar = function(){
-        let promesa = api.deleteBluePrint(document.getElementById("author").value,document.getElementById("blueprintSelect").innerHTML.valueOf());
+        var promesa = api.deleteBluePrint(document.getElementById("author").value,document.getElementById("blueprintSelect").innerHTML.valueOf());
         promesa.then(
           function(){
                 api.getBlueprintsByAuthor(autor,nameAndSizeBlueprint);
