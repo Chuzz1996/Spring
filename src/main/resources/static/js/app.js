@@ -84,8 +84,9 @@ privateName = (function(){
             canvas.addEventListener("mousedown",function(event){
                 if(document.getElementById("author").value.length > 0 &&
                         document.getElementById("blueprintSelect").innerHTML.valueOf().length > 0){
-                    puntos.push({"x":event.clientX-start,"y":event.clientY-start.top});
-                    ctx.lineTo(event.clientX-start.left,event.clientY-start.top);
+                    var xxx = getOffset(canvas);
+                    puntos.push({"x":event.clientX-xxx.left,"y":event.clientY-xxx.top});
+                    ctx.lineTo(event.clientX-xxx.left,event.clientY-xxx.top);
                     ctx.stroke();
                 }
             });
@@ -140,8 +141,10 @@ privateName = (function(){
 
     return{
         getBlueprints:function(authname){
-            autor = authname;
-            api.getBlueprintsByAuthor(authname,nameAndSizeBlueprint);
+            if(authname.length>0){
+                autor = authname;
+                api.getBlueprintsByAuthor(authname,nameAndSizeBlueprint);
+            }
         },
         updateName:function(authname){
             autor = authname;

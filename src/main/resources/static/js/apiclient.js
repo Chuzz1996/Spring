@@ -35,7 +35,6 @@ apiclient = (function(){
                 },
                 
                 deleteBluePrint:function(authname,bpname){
-                    console.info(authname+","+bpname);
                     return $.ajax({
                        url:"/blueprints/"+authname+"/"+bpname,
                        type:"DELETE"
