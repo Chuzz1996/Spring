@@ -103,15 +103,14 @@ public class BlueprintAPIController {
     }
     
     @RequestMapping(path = "/{author}/{bpname}", method = RequestMethod.PUT)
-    public ResponseEntity<?> putNewThings(@PathVariable String author, @PathVariable String bpname, @RequestBody Blueprint points){
+    public ResponseEntity<?> putNewThings(@RequestBody Blueprint Newbp){
+        System.out.println("LLEGO PINCHE GUEY");
         try{
-            bp.updateBlueprints(author, bpname, points.getPoints());
+            bp.updateBlueprints(Newbp.getAuthor(),Newbp.getName(),Newbp.getPoints());
             return new ResponseEntity<>(HttpStatus.ACCEPTED);
         }catch(BlueprintPersistenceException e){
-            Blueprint blueprint = new Blueprint(author, bpname);
-            for(Point x : points.getPoints()){blueprint.addPoint(x);}
             try{
-                bp.addNewBlueprint(blueprint);
+                bp.addNewBlueprint(Newbp);
                 return new ResponseEntity<>(HttpStatus.ACCEPTED);
             }catch(BlueprintPersistenceException ex){
                 return new ResponseEntity<>("No fue posible actalizar",HttpStatus.NOT_FOUND);

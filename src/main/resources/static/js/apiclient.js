@@ -16,14 +16,14 @@ apiclient = (function(){
                     $.get("blueprints/"+authname+"/"+bpname,callback);
 		},
                 
-                setBlueprintByNameAndAuthor:function(authname,bpname,points){
+                UpdateBlueprint:function(authname,bpname,points){
                     console.info(
                             '{"author":"'+authname+'","name":"'+bpname+'", "points":'+JSON.stringify(points)+'}'
                             );
                     return $.ajax({
                         url:"/blueprints/"+authname+"/"+bpname,
                         type: 'PUT',
-                        data: '{"author":"'+authname+'","name":"'+bpname+'", "points":'+JSON.stringify(points)+'}',
+                        data: '{"author":"'+authname+'","name":"'+bpname+'","points":'+JSON.stringify(points)+'}',
                         contentType: "application/json"
                     });
                 },

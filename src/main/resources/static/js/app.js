@@ -56,12 +56,8 @@ privateName = (function(){
             canvas.addEventListener("pointerdown",function(event){
                 if(document.getElementById("author").value.length > 0 &&
                         document.getElementById("blueprintSelect").innerHTML.valueOf().length > 0){
-                    /*puntos.push({"x":event.pageX-start.left,"y":event.pageY-start.top});
-                    ctx.lineTo(event.pageX-start.left,event.pageY-start.top);*/
-                    puntos.push({"x":event.clientX-start,"y":event.clientY-start.top});
-                    ctx.lineTo(event.clientX-start.left,event.clientY-start.top);
-                    console.info(event.clientX+","+event.clientY);
-                    console.info(start.left+","+start.top);
+                    puntos.push({"x":event.pageX-start.left,"y":event.pageY-start.top});
+                    ctx.lineTo(event.pageX-start.left,event.pageY-start.top);
                     console.info(puntos);
                     ctx.stroke();
                 }
@@ -79,7 +75,7 @@ privateName = (function(){
     };
     
     var promesaSave = function(){
-        let promesa = api.setBlueprintByNameAndAuthor(
+        let promesa = api.UpdateBlueprint(
                     document.getElementById("author").value,document.getElementById("blueprintSelect").innerHTML.valueOf(),puntos);
             promesa.then(
                 function(){
