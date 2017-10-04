@@ -90,10 +90,11 @@ public class InMemoryBlueprintPersistence implements BlueprintsPersistence{
     @Override
     public synchronized void updateBlueprint(String author, String bprintname, List<Point> point) throws BlueprintPersistenceException {
         if(blueprints.containsKey(new Tuple<>(author,bprintname))){
-            Blueprint bp = blueprints.get(new Tuple<>(author,bprintname));
+            blueprints.remove(new Tuple<>(author,bprintname));
+            Blueprint bp = new Blueprint(author, bprintname);
             for(Point x:point){
                 bp.addPoint(x);
-            }
+            }this.saveBlueprint(bp);
         }else{
             throw new BlueprintPersistenceException("I cant update a"+ author +"becase it didnt add");
         }

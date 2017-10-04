@@ -104,7 +104,6 @@ public class BlueprintAPIController {
     
     @RequestMapping(path = "/{author}/{bpname}", method = RequestMethod.PUT)
     public ResponseEntity<?> putNewThings(@RequestBody Blueprint Newbp){
-        System.out.println("LLEGO PINCHE GUEY");
         try{
             bp.updateBlueprints(Newbp.getAuthor(),Newbp.getName(),Newbp.getPoints());
             return new ResponseEntity<>(HttpStatus.ACCEPTED);

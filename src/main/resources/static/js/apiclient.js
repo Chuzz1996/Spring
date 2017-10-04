@@ -17,13 +17,10 @@ apiclient = (function(){
 		},
                 
                 UpdateBlueprint:function(authname,bpname,points){
-                    console.info(
-                            '{"author":"'+authname+'","name":"'+bpname+'", "points":'+JSON.stringify(points)+'}'
-                            );
                     return $.ajax({
                         url:"/blueprints/"+authname+"/"+bpname,
                         type: 'PUT',
-                        data: '{"author":"'+authname+'","name":"'+bpname+'","points":'+JSON.stringify(points)+'}',
+                        data: '{"author":"'+authname+'","points":'+JSON.stringify(points)+',"name":"'+bpname+'"}',
                         contentType: "application/json"
                     });
                 },
@@ -32,17 +29,16 @@ apiclient = (function(){
                     return $.ajax({
                        url:"/blueprints",
                        type: 'POST',
-                       data: '{"author":"'+authname+'","name":"'+bpname+'", "points":'+JSON.stringify(points)+'}',
+                       data: '{"author":"'+authname+'","points":'+JSON.stringify(points)+',"name":"'+bpname+'"}',
                        contentType: "application/json"
                     });
                 },
                 
                 deleteBluePrint:function(authname,bpname){
+                    console.info(authname+","+bpname);
                     return $.ajax({
-                       url:"/bluprints/bpname",
-                       type:"DELETE",
-                       data: '{"author":"'+authname+'","name":"'+bpname+'"}',
-                       contentType: "application/json"
+                       url:"/blueprints/"+authname+"/"+bpname,
+                       type:"DELETE"
                     });
                 }
                 

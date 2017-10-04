@@ -10,6 +10,10 @@ privateName = (function(){
     
     var puntos;
     
+    var namePlane;
+    
+    var howTake;
+    
     
     var cleanTable = function(){
         $("#TablePoints").find("tr:gt(0)").remove();
@@ -54,11 +58,10 @@ privateName = (function(){
         var start = $("#myCanvas").position();
         if(window.PointerEvent){
             canvas.addEventListener("pointerdown",function(event){
-                if(document.getElementById("author").value.length > 0 &&
-                        document.getElementById("blueprintSelect").innerHTML.valueOf().length > 0){
+                if((document.getElementById("author").value.length > 0 &&
+                        document.getElementById("blueprintSelect").innerHTML.valueOf().length > 0)){
                     puntos.push({"x":event.pageX-start.left,"y":event.pageY-start.top});
                     ctx.lineTo(event.pageX-start.left,event.pageY-start.top);
-                    console.info(puntos);
                     ctx.stroke();
                 }
             });
@@ -76,33 +79,46 @@ privateName = (function(){
     
     var promesaSave = function(){
         let promesa = api.UpdateBlueprint(
-                    document.getElementById("author").value,document.getElementById("blueprintSelect").innerHTML.valueOf(),puntos);
+                    document.getElementById("author").value,namePlane,puntos);
             promesa.then(
                 function(){
-                    console.info("Ok");
+                    api.getBlueprintsByAuthor(autor,nameAndSizeBlueprint);
                 },
                 function(){
-                    console.info("PAILA");
+                    alert("El plano no se actualizo");
                 }
             );
     }
     
     var promesaAdd = function(){
-        var canvas = document.getElementById("myCanvas");
-        var ctx = canvas.getContext("2d");
-        ctx.clearRect(0,0,canvas.width, canvas.height);
-        document.getElementById("blueprintSelect").innerHTML = "";
-        document.getElementById("newPlane").innerHTML = document.getElementById("inputNewPlane").value;
+        if(namePlane.length > 0){
+            let promesa = api.addNewBluePrint(
+                    document.getElementById("author").value,namePlane,puntos);
+            promesa.then(
+                    function(){
+                        api.getBlueprintsByAuthor(autor,nameAndSizeBlueprint);
+                    },
+                    function(){
+                        alert("El plano no se agrego");
+                    }
+                );
+        }
     }
     
     var promesaEliminar = function(){
         let promesa = api.deleteBluePrint(document.getElementById("author").value,document.getElementById("blueprintSelect").innerHTML.valueOf());
         promesa.then(
           function(){
-              console.info("OK");
+                api.getBlueprintsByAuthor(autor,nameAndSizeBlueprint);
+                document.getElementById("blueprintSelect").innerHTML = "";   
+                namePlane = document.getElementById("newPlane").value; 
+                var canvas = document.getElementById("myCanvas");
+                var ctx = canvas.getContext("2d");
+                ctx.clearRect(0,0,canvas.width, canvas.height);
+                ctx.beginPath();
           },
           function(){
-              console.info("PAILA");
+                alert("El plano no se elimino");
           }
         );
     }
@@ -117,17 +133,30 @@ privateName = (function(){
         },
         drawPlane:function(authname,name){
             autor = authname;
+            namePlane = name;
+            howTake = 1;
             api.getBlueprintsByNameAndAuthor(authname,name,drawBlueprint);
         },
         drawCanvas:function(){
             drawNewBluePrint();
         },
         saveUpdate:function(){
-            promesaSave();
+            if(howTake==1){
+                promesaSave();
+            }else{
+                promesaAdd();
+            }
         },
         
         addNewBluePrint:function(){
-            promesaAdd();
+            document.getElementById("blueprintSelect").innerHTML = document.getElementById("newPlane").value;   
+            namePlane = document.getElementById("newPlane").value; 
+            var canvas = document.getElementById("myCanvas");
+            var ctx = canvas.getContext("2d");
+            ctx.clearRect(0,0,canvas.width, canvas.height);
+            ctx.beginPath();
+            puntos = [];
+            howTake = 2;
         },
         
         deleteBluePrint:function(){
